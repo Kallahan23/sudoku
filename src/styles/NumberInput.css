@@ -1,0 +1,43 @@
+.number-input {
+  padding: 16px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mode-indicator {
+  margin-bottom: 8px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.number-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.number-button {
+  padding: 12px;
+  font-size: 18px;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.number-button:hover {
+  background-color: #d0d0d0;
+}
+
+@media (max-width: 480px) {
+  .number-input {
+    padding: 12px;
+  }
+  
+  .number-button {
+    padding: 8px;
+    font-size: 16px;
+  }
+}
