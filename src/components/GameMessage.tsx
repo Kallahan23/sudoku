@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatTime } from '../utils/sudoku';
 import '../styles/GameMessage.css';
 
 interface GameMessageProps {
@@ -16,11 +17,7 @@ export const GameMessage: React.FC<GameMessageProps> = ({
 }) => {
   if (!isComplete) return null;
 
-  const formatTime = (time: number): string => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  };
+
 
   return (
     <div className="game-message-overlay">

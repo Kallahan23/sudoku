@@ -93,10 +93,7 @@ export const generatePuzzle = (difficulty: Difficulty): Board => {
   
   // Solve the rest of the board
   solveSudoku(board);
-  
-  // Make a deep copy of the solved board
-  const solvedBoard = JSON.parse(JSON.stringify(board));
-  
+
   // Remove numbers based on difficulty
   const cellsToRemove = getCellsToRemove(difficulty);
   removeNumbers(board, cellsToRemove);
