@@ -58,23 +58,28 @@ export const handleNumberInput = (
   // Apply highlighting for the new value
   const highlightedBoard = selectCell(newBoard, rowIndex, colIndex);
 
+  // Create intermediate state for validation
+  const intermediateState = {
+    ...gameState,
+    board: highlightedBoard
+  };
+
+  // Apply validation immediately after number input
+  const validatedState = handleSolutionCheck(intermediateState);
+
   // Check if the board is complete
-  if (isBoardFilled(highlightedBoard)) {
-    const solved = isBoardSolved(highlightedBoard);
-    const valid = isBoardValid(highlightedBoard);
+  if (isBoardFilled(validatedState.board)) {
+    const solved = isBoardSolved(validatedState.board);
+    const valid = isBoardValid(validatedState.board);
 
     return {
-      ...gameState,
-      board: highlightedBoard,
+      ...validatedState,
       isComplete: true,
       isSolved: solved && valid
     };
   }
 
-  return {
-    ...gameState,
-    board: highlightedBoard
-  };
+  return validatedState;
 };
 
 /**

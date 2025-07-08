@@ -8,7 +8,6 @@ interface ControlsProps {
   onNewGame: (difficulty: Difficulty) => void;
   onToggleNotes: () => void;
   onClearCell: () => void;
-  onCheckSolution: () => void;
   onSolvePuzzle: () => void;
   isNotesMode: boolean;
   elapsedTime: number;
@@ -19,7 +18,6 @@ export const Controls: React.FC<ControlsProps> = ({
   onNewGame,
   onToggleNotes,
   onClearCell,
-  onCheckSolution,
   onSolvePuzzle,
   isNotesMode,
   elapsedTime,
@@ -46,9 +44,6 @@ export const Controls: React.FC<ControlsProps> = ({
         </div>
 
         <div className='button-group'>
-          <button className='control-button' onClick={onCheckSolution}>
-            Check
-          </button>
           <button className='control-button' onClick={onSolvePuzzle}>
             Solve
           </button>

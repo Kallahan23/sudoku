@@ -9,7 +9,6 @@ import { selectCell } from '../utils/boardUtils';
 import {
   handleNumberInput,
   handleCellClear,
-  handleSolutionCheck,
   handlePuzzleSolve,
   handleKeyboardNavigation
 } from '../utils/gameUtils';
@@ -35,7 +34,7 @@ export const Game: React.FC = () => {
     startTime: gameState.startTime,
     isComplete: gameState.isComplete,
     onTimerUpdate: (elapsedTime) => {
-      setGameState(prev => ({ ...prev, elapsedTime }));
+      setGameState((prev) => ({ ...prev, elapsedTime }));
     }
   });
 
@@ -80,20 +79,18 @@ export const Game: React.FC = () => {
     setGameState((prev) => handleCellClear(prev));
   }, []);
 
-  // Check solution
-  const handleCheck = useCallback(() => {
-    setGameState((prev) => handleSolutionCheck(prev));
-  }, []);
-
   // Solve puzzle
   const handleSolve = useCallback(() => {
     setGameState((prev) => handlePuzzleSolve(prev));
   }, []);
 
   // Handle navigation
-  const handleNavigation = useCallback((direction: 'up' | 'down' | 'left' | 'right') => {
-    setGameState((prev) => handleKeyboardNavigation(prev, direction));
-  }, []);
+  const handleNavigation = useCallback(
+    (direction: 'up' | 'down' | 'left' | 'right') => {
+      setGameState((prev) => handleKeyboardNavigation(prev, direction));
+    },
+    []
+  );
 
   // Close game message
   const handleCloseMessage = useCallback(() => {
@@ -131,7 +128,6 @@ export const Game: React.FC = () => {
             onNewGame={handleNewGame}
             onToggleNotes={handleToggleNotes}
             onClearCell={handleClear}
-            onCheckSolution={handleCheck}
             onSolvePuzzle={handleSolve}
             isNotesMode={isNotesMode}
             elapsedTime={gameState.elapsedTime}
