@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Difficulty } from '../types';
 import { formatTime } from '../utils/sudoku';
+import { DifficultyButton } from './DifficultyButton';
 import '../styles/Controls.css';
 
 interface ControlsProps {
@@ -56,54 +57,22 @@ export const Controls: React.FC<ControlsProps> = ({
         <div className='new-game-controls'>
           <div className='new-game-label'>New Game:</div>
           <div className='difficulty-buttons'>
-            <button
-              className={`difficulty-button ${
-                difficulty === 'beginner' ? 'active' : ''
-              }`}
-              onClick={() => onNewGame('beginner')}
-            >
-              Beginner
-            </button>
-            <button
-              className={`difficulty-button ${
-                difficulty === 'easy' ? 'active' : ''
-              }`}
-              onClick={() => onNewGame('easy')}
-            >
-              Easy
-            </button>
-            <button
-              className={`difficulty-button ${
-                difficulty === 'medium' ? 'active' : ''
-              }`}
-              onClick={() => onNewGame('medium')}
-            >
-              Medium
-            </button>
-            <button
-              className={`difficulty-button ${
-                difficulty === 'hard' ? 'active' : ''
-              }`}
-              onClick={() => onNewGame('hard')}
-            >
-              Hard
-            </button>
-            <button
-              className={`difficulty-button ${
-                difficulty === 'expert' ? 'active' : ''
-              }`}
-              onClick={() => onNewGame('expert')}
-            >
-              Expert
-            </button>
-            <button
-              className={`difficulty-button ${
-                difficulty === 'master' ? 'active' : ''
-              }`}
-              onClick={() => onNewGame('master')}
-            >
-              Master
-            </button>
+            {[
+              { difficulty: 'beginner' as const, label: 'Beginner' },
+              { difficulty: 'easy' as const, label: 'Easy' },
+              { difficulty: 'medium' as const, label: 'Medium' },
+              { difficulty: 'hard' as const, label: 'Hard' },
+              { difficulty: 'expert' as const, label: 'Expert' },
+              { difficulty: 'master' as const, label: 'Master' }
+            ].map(({ difficulty: diff, label }) => (
+              <DifficultyButton
+                key={diff}
+                difficulty={diff}
+                currentDifficulty={difficulty}
+                onNewGame={onNewGame}
+                label={label}
+              />
+            ))}
           </div>
         </div>
       </div>

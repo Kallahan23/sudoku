@@ -192,37 +192,39 @@ export const isBoardSolved = (board: Board): boolean => {
   return allRowsValid(board) && allColumnsValid(board) && allBoxesValid(board);
 };
 
+// Helper function to check if values are unique and complete (no nulls)
+const areValuesUniqueAndComplete = (values: (number | null)[]): boolean => {
+  const seen = new Set<number>();
+  
+  for (const value of values) {
+    if (value === null || seen.has(value)) {
+      return false;
+    }
+    seen.add(value);
+  }
+  
+  return true;
+};
+
 // Check if all rows contain unique numbers 1-9
 const allRowsValid = (board: Board): boolean => {
   for (let row = 0; row < 9; row++) {
-    const seen = new Set<number>();
-
-    for (let col = 0; col < 9; col++) {
-      const value = board[row][col].value;
-      if (value === null || seen.has(value)) {
-        return false;
-      }
-      seen.add(value);
+    const values = board[row].map(cell => cell.value);
+    if (!areValuesUniqueAndComplete(values)) {
+      return false;
     }
   }
-
   return true;
 };
 
 // Check if all columns contain unique numbers 1-9
 const allColumnsValid = (board: Board): boolean => {
   for (let col = 0; col < 9; col++) {
-    const seen = new Set<number>();
-
-    for (let row = 0; row < 9; row++) {
-      const value = board[row][col].value;
-      if (value === null || seen.has(value)) {
-        return false;
-      }
-      seen.add(value);
+    const values = board.map(row => row[col].value);
+    if (!areValuesUniqueAndComplete(values)) {
+      return false;
     }
   }
-
   return true;
 };
 
@@ -230,20 +232,35 @@ const allColumnsValid = (board: Board): boolean => {
 const allBoxesValid = (board: Board): boolean => {
   for (let boxRow = 0; boxRow < 9; boxRow += 3) {
     for (let boxCol = 0; boxCol < 9; boxCol += 3) {
-      const seen = new Set<number>();
-
+      const values: (number | null)[] = [];
+      
       for (let row = 0; row < 3; row++) {
         for (let col = 0; col < 3; col++) {
-          const value = board[boxRow + row][boxCol + col].value;
-          if (value === null || seen.has(value)) {
-            return false;
-          }
-          seen.add(value);
+          values.push(board[boxRow + row][boxCol + col].value);
         }
+      }
+      
+      if (!areValuesUniqueAndComplete(values)) {
+        return false;
       }
     }
   }
+  return true;
+};
 
+// Helper function to check if values are unique (allows nulls)
+const areValuesUnique = (values: (number | null)[]): boolean => {
+  const seen = new Set<number>();
+  
+  for (const value of values) {
+    if (value !== null) {
+      if (seen.has(value)) {
+        return false;
+      }
+      seen.add(value);
+    }
+  }
+  
   return true;
 };
 
@@ -251,49 +268,33 @@ const allBoxesValid = (board: Board): boolean => {
 export const isBoardValid = (board: Board): boolean => {
   // Check each row
   for (let row = 0; row < 9; row++) {
-    const seen = new Set<number>();
-
-    for (let col = 0; col < 9; col++) {
-      const value = board[row][col].value;
-      if (value !== null) {
-        if (seen.has(value)) {
-          return false;
-        }
-        seen.add(value);
-      }
+    const values = board[row].map(cell => cell.value);
+    if (!areValuesUnique(values)) {
+      return false;
     }
   }
 
   // Check each column
   for (let col = 0; col < 9; col++) {
-    const seen = new Set<number>();
-
-    for (let row = 0; row < 9; row++) {
-      const value = board[row][col].value;
-      if (value !== null) {
-        if (seen.has(value)) {
-          return false;
-        }
-        seen.add(value);
-      }
+    const values = board.map(row => row[col].value);
+    if (!areValuesUnique(values)) {
+      return false;
     }
   }
 
   // Check each 3x3 box
   for (let boxRow = 0; boxRow < 9; boxRow += 3) {
     for (let boxCol = 0; boxCol < 9; boxCol += 3) {
-      const seen = new Set<number>();
-
+      const values: (number | null)[] = [];
+      
       for (let row = 0; row < 3; row++) {
         for (let col = 0; col < 3; col++) {
-          const value = board[boxRow + row][boxCol + col].value;
-          if (value !== null) {
-            if (seen.has(value)) {
-              return false;
-            }
-            seen.add(value);
-          }
+          values.push(board[boxRow + row][boxCol + col].value);
         }
+      }
+      
+      if (!areValuesUnique(values)) {
+        return false;
       }
     }
   }
