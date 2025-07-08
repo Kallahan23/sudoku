@@ -40,6 +40,11 @@
   box-shadow: inset 0 0 0 1px #ff9800;
 }
 
+.sudoku-cell.highlighted-row,
+.sudoku-cell.highlighted-column {
+  background-color: #f0f8ff;
+}
+
 .sudoku-cell.invalid {
   color: #f44336;
   animation: shake 0.5s;

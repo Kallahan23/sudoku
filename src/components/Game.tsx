@@ -66,6 +66,8 @@ export const Game: React.FC = () => {
             ...newBoard[row][col],
             isSelected: false,
             isSameNumber: false,
+            isHighlightedRow: false,
+            isHighlightedColumn: false,
           };
         }
       }
@@ -75,6 +77,24 @@ export const Game: React.FC = () => {
         ...newBoard[rowIndex][colIndex],
         isSelected: true,
       };
+      
+      // Highlight row and column for medium/easy difficulty
+      for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+          if (row === rowIndex && col !== colIndex) {
+            newBoard[row][col] = {
+              ...newBoard[row][col],
+              isHighlightedRow: true,
+            };
+          }
+          if (col === colIndex && row !== rowIndex) {
+            newBoard[row][col] = {
+              ...newBoard[row][col],
+              isHighlightedColumn: true,
+            };
+          }
+        }
+      }
       
       // Highlight cells with same number
       const selectedValue = newBoard[rowIndex][colIndex].value;
@@ -139,6 +159,24 @@ export const Game: React.FC = () => {
               ...newBoard[row][col],
               isSameNumber: false,
             };
+          }
+        }
+        
+        // Highlight row and column for medium/easy difficulty
+        for (let row = 0; row < 9; row++) {
+          for (let col = 0; col < 9; col++) {
+            if (row === rowIndex && col !== colIndex) {
+              newBoard[row][col] = {
+                ...newBoard[row][col],
+                isHighlightedRow: true,
+              };
+            }
+            if (col === colIndex && row !== rowIndex) {
+              newBoard[row][col] = {
+                ...newBoard[row][col],
+                isHighlightedColumn: true,
+              };
+            }
           }
         }
         
@@ -215,6 +253,24 @@ export const Game: React.FC = () => {
             ...newBoard[row][col],
             isSameNumber: false,
           };
+        }
+      }
+      
+      // Re-highlight row and column for medium/easy difficulty
+      for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+          if (row === rowIndex && col !== colIndex) {
+            newBoard[row][col] = {
+              ...newBoard[row][col],
+              isHighlightedRow: true,
+            };
+          }
+          if (col === colIndex && row !== rowIndex) {
+            newBoard[row][col] = {
+              ...newBoard[row][col],
+              isHighlightedColumn: true,
+            };
+          }
         }
       }
       
@@ -335,6 +391,8 @@ export const Game: React.FC = () => {
                 ...newBoard[row][col],
                 isSelected: false,
                 isSameNumber: false,
+                isHighlightedRow: false,
+                isHighlightedColumn: false,
               };
             }
           }
@@ -344,6 +402,24 @@ export const Game: React.FC = () => {
             ...newBoard[newRow][newCol],
             isSelected: true,
           };
+          
+          // Highlight row and column for medium/easy difficulty
+          for (let row = 0; row < 9; row++) {
+            for (let col = 0; col < 9; col++) {
+              if (row === newRow && col !== newCol) {
+                newBoard[row][col] = {
+                  ...newBoard[row][col],
+                  isHighlightedRow: true,
+                };
+              }
+              if (col === newCol && row !== newRow) {
+                newBoard[row][col] = {
+                  ...newBoard[row][col],
+                  isHighlightedColumn: true,
+                };
+              }
+            }
+          }
           
           // Highlight cells with same number
           const selectedValue = newBoard[newRow][newCol].value;

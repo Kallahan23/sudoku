@@ -28,6 +28,8 @@ export const Cell: React.FC<CellProps> = ({
     data.isSelected ? 'selected' : '',
     data.isInvalid ? 'invalid' : '',
     data.isSameNumber ? 'same-number' : '',
+    data.isHighlightedRow ? 'highlighted-row' : '',
+    data.isHighlightedColumn ? 'highlighted-column' : '',
     // Add CSS classes for borders
     rowIndex % 3 === 0 ? 'border-top' : '',
     colIndex % 3 === 0 ? 'border-left' : '',
