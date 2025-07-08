@@ -108,13 +108,13 @@
     padding: 12px;
     gap: 12px;
   }
-  
+
   .control-button {
     padding: 14px 8px;
     min-height: 48px;
     font-size: 14px;
   }
-  
+
   .difficulty-button {
     padding: 14px 6px;
     min-height: 48px;
@@ -122,8 +122,9 @@
     min-width: calc(50% - 3px);
     max-width: calc(50% - 3px);
   }
-  
-  .timer, .difficulty {
+
+  .timer,
+  .difficulty {
     font-size: 14px;
   }
 }
@@ -134,7 +135,7 @@
     max-width: 100%;
     margin-bottom: 4px;
   }
-  
+
   .difficulty-buttons {
     flex-direction: column;
     gap: 4px;

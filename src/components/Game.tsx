@@ -477,6 +477,10 @@ export const Game: React.FC = () => {
         <BoardComponent board={gameState.board} onCellClick={handleCellClick} />
 
         <div className='game-side-panel'>
+          <NumberInput
+            onNumberClick={handleNumberClick}
+            isNotesMode={isNotesMode}
+          />
           <Controls
             onNewGame={handleNewGame}
             onToggleNotes={handleToggleNotes}
@@ -486,11 +490,6 @@ export const Game: React.FC = () => {
             isNotesMode={isNotesMode}
             elapsedTime={gameState.elapsedTime}
             difficulty={gameState.difficulty}
-          />
-
-          <NumberInput
-            onNumberClick={handleNumberClick}
-            isNotesMode={isNotesMode}
           />
         </div>
       </div>
