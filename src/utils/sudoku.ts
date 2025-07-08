@@ -3,18 +3,18 @@ import type { Board, Difficulty } from '../types';
 // Create an empty Sudoku board
 export const createEmptyBoard = (): Board => {
   const board: Board = [];
-  
+
   for (let row = 0; row < 9; row++) {
     board[row] = [];
     for (let col = 0; col < 9; col++) {
       board[row][col] = {
         value: null,
         isFixed: false,
-        notes: [],
+        notes: []
       };
     }
   }
-  
+
   return board;
 };
 
@@ -22,7 +22,7 @@ export const createEmptyBoard = (): Board => {
 export const isValidPlacement = (
   board: Board,
   row: number,
-  col: number, 
+  col: number,
   num: number
 ): boolean => {
   // Check row
@@ -31,18 +31,18 @@ export const isValidPlacement = (
       return false;
     }
   }
-  
+
   // Check column
   for (let y = 0; y < 9; y++) {
     if (board[y][col].value === num) {
       return false;
     }
   }
-  
+
   // Check 3x3 box
   const boxRow = Math.floor(row / 3) * 3;
   const boxCol = Math.floor(col / 3) * 3;
-  
+
   for (let y = 0; y < 3; y++) {
     for (let x = 0; x < 3; x++) {
       if (board[boxRow + y][boxCol + x].value === num) {
@@ -50,7 +50,7 @@ export const isValidPlacement = (
       }
     }
   }
-  
+
   return true;
 };
 
@@ -65,12 +65,12 @@ export const solveSudoku = (board: Board): boolean => {
           if (isValidPlacement(board, row, col, num)) {
             // Place the number
             board[row][col].value = num;
-            
+
             // Recursively solve the rest
             if (solveSudoku(board)) {
               return true;
             }
-            
+
             // If not successful, backtrack
             board[row][col].value = null;
           }
@@ -87,17 +87,17 @@ export const solveSudoku = (board: Board): boolean => {
 // Generate a Sudoku puzzle with the specified difficulty
 export const generatePuzzle = (difficulty: Difficulty): Board => {
   const board = createEmptyBoard();
-  
+
   // Fill the diagonal 3x3 boxes first (these can be filled independently)
   fillDiagonalBoxes(board);
-  
+
   // Solve the rest of the board
   solveSudoku(board);
 
   // Remove numbers based on difficulty
   const cellsToRemove = getCellsToRemove(difficulty);
   removeNumbers(board, cellsToRemove);
-  
+
   // Mark the remaining cells as fixed
   for (let row = 0; row < 9; row++) {
     for (let col = 0; col < 9; col++) {
@@ -106,7 +106,7 @@ export const generatePuzzle = (difficulty: Difficulty): Board => {
       }
     }
   }
-  
+
   return board;
 };
 
@@ -122,7 +122,7 @@ const fillDiagonalBoxes = (board: Board): void => {
 const fillBox = (board: Board, startRow: number, startCol: number): void => {
   const nums = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   let index = 0;
-  
+
   for (let row = 0; row < 3; row++) {
     for (let col = 0; col < 3; col++) {
       board[startRow + row][startCol + col].value = nums[index++];
@@ -133,12 +133,12 @@ const fillBox = (board: Board, startRow: number, startCol: number): void => {
 // Shuffle an array using Fisher-Yates algorithm
 const shuffle = <T>(array: T[]): T[] => {
   const result = [...array];
-  
+
   for (let i = result.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [result[i], result[j]] = [result[j], result[i]];
   }
-  
+
   return result;
 };
 
@@ -159,11 +159,11 @@ const getCellsToRemove = (difficulty: Difficulty): number => {
 // Remove a specific number of cells randomly
 const removeNumbers = (board: Board, count: number): void => {
   let cellsRemoved = 0;
-  
+
   while (cellsRemoved < count) {
     const row = Math.floor(Math.random() * 9);
     const col = Math.floor(Math.random() * 9);
-    
+
     if (board[row][col].value !== null) {
       board[row][col].value = null;
       cellsRemoved++;
@@ -181,20 +181,16 @@ export const isBoardSolved = (board: Board): boolean => {
       }
     }
   }
-  
+
   // Check if all rows, columns, and boxes are valid
-  return (
-    allRowsValid(board) && 
-    allColumnsValid(board) && 
-    allBoxesValid(board)
-  );
+  return allRowsValid(board) && allColumnsValid(board) && allBoxesValid(board);
 };
 
 // Check if all rows contain unique numbers 1-9
 const allRowsValid = (board: Board): boolean => {
   for (let row = 0; row < 9; row++) {
     const seen = new Set<number>();
-    
+
     for (let col = 0; col < 9; col++) {
       const value = board[row][col].value;
       if (value === null || seen.has(value)) {
@@ -203,7 +199,7 @@ const allRowsValid = (board: Board): boolean => {
       seen.add(value);
     }
   }
-  
+
   return true;
 };
 
@@ -211,7 +207,7 @@ const allRowsValid = (board: Board): boolean => {
 const allColumnsValid = (board: Board): boolean => {
   for (let col = 0; col < 9; col++) {
     const seen = new Set<number>();
-    
+
     for (let row = 0; row < 9; row++) {
       const value = board[row][col].value;
       if (value === null || seen.has(value)) {
@@ -220,7 +216,7 @@ const allColumnsValid = (board: Board): boolean => {
       seen.add(value);
     }
   }
-  
+
   return true;
 };
 
@@ -229,7 +225,7 @@ const allBoxesValid = (board: Board): boolean => {
   for (let boxRow = 0; boxRow < 9; boxRow += 3) {
     for (let boxCol = 0; boxCol < 9; boxCol += 3) {
       const seen = new Set<number>();
-      
+
       for (let row = 0; row < 3; row++) {
         for (let col = 0; col < 3; col++) {
           const value = board[boxRow + row][boxCol + col].value;
@@ -241,7 +237,7 @@ const allBoxesValid = (board: Board): boolean => {
       }
     }
   }
-  
+
   return true;
 };
 
@@ -250,7 +246,7 @@ export const isBoardValid = (board: Board): boolean => {
   // Check each row
   for (let row = 0; row < 9; row++) {
     const seen = new Set<number>();
-    
+
     for (let col = 0; col < 9; col++) {
       const value = board[row][col].value;
       if (value !== null) {
@@ -261,11 +257,11 @@ export const isBoardValid = (board: Board): boolean => {
       }
     }
   }
-  
+
   // Check each column
   for (let col = 0; col < 9; col++) {
     const seen = new Set<number>();
-    
+
     for (let row = 0; row < 9; row++) {
       const value = board[row][col].value;
       if (value !== null) {
@@ -276,12 +272,12 @@ export const isBoardValid = (board: Board): boolean => {
       }
     }
   }
-  
+
   // Check each 3x3 box
   for (let boxRow = 0; boxRow < 9; boxRow += 3) {
     for (let boxCol = 0; boxCol < 9; boxCol += 3) {
       const seen = new Set<number>();
-      
+
       for (let row = 0; row < 3; row++) {
         for (let col = 0; col < 3; col++) {
           const value = board[boxRow + row][boxCol + col].value;
@@ -295,18 +291,18 @@ export const isBoardValid = (board: Board): boolean => {
       }
     }
   }
-  
+
   return true;
 };
 
 // Find cells with invalid placements
 export const findInvalidCells = (board: Board): [number, number][] => {
   const invalidCells: [number, number][] = [];
-  
+
   // Check rows
   for (let row = 0; row < 9; row++) {
     const seen: Record<number, number[]> = {};
-    
+
     for (let col = 0; col < 9; col++) {
       const value = board[row][col].value;
       if (value !== null) {
@@ -316,20 +312,20 @@ export const findInvalidCells = (board: Board): [number, number][] => {
         seen[value].push(col);
       }
     }
-    
+
     for (const value in seen) {
       if (seen[value].length > 1) {
-        seen[value].forEach(col => {
+        seen[value].forEach((col) => {
           invalidCells.push([row, col]);
         });
       }
     }
   }
-  
+
   // Check columns
   for (let col = 0; col < 9; col++) {
     const seen: Record<number, number[]> = {};
-    
+
     for (let row = 0; row < 9; row++) {
       const value = board[row][col].value;
       if (value !== null) {
@@ -339,27 +335,27 @@ export const findInvalidCells = (board: Board): [number, number][] => {
         seen[value].push(row);
       }
     }
-    
+
     for (const value in seen) {
       if (seen[value].length > 1) {
-        seen[value].forEach(row => {
+        seen[value].forEach((row) => {
           invalidCells.push([row, col]);
         });
       }
     }
   }
-  
+
   // Check 3x3 boxes
   for (let boxRow = 0; boxRow < 9; boxRow += 3) {
     for (let boxCol = 0; boxCol < 9; boxCol += 3) {
       const seen: Record<number, Array<[number, number]>> = {};
-      
+
       for (let row = 0; row < 3; row++) {
         for (let col = 0; col < 3; col++) {
           const r = boxRow + row;
           const c = boxCol + col;
           const value = board[r][c].value;
-          
+
           if (value !== null) {
             if (!seen[value]) {
               seen[value] = [];
@@ -368,7 +364,7 @@ export const findInvalidCells = (board: Board): [number, number][] => {
           }
         }
       }
-      
+
       for (const value in seen) {
         if (seen[value].length > 1) {
           seen[value].forEach(([r, c]) => {
@@ -378,26 +374,31 @@ export const findInvalidCells = (board: Board): [number, number][] => {
       }
     }
   }
-  
+
   // Remove duplicates
-  return Array.from(new Set(invalidCells.map(cell => JSON.stringify(cell))))
-    .map(cell => JSON.parse(cell));
+  return Array.from(
+    new Set(invalidCells.map((cell) => JSON.stringify(cell)))
+  ).map((cell) => JSON.parse(cell));
 };
 
 // Get possible values for a cell
-export const getPossibleValues = (board: Board, row: number, col: number): number[] => {
+export const getPossibleValues = (
+  board: Board,
+  row: number,
+  col: number
+): number[] => {
   if (board[row][col].value !== null) {
     return [];
   }
-  
+
   const possibilities = [];
-  
+
   for (let num = 1; num <= 9; num++) {
     if (isValidPlacement(board, row, col, num)) {
       possibilities.push(num);
     }
   }
-  
+
   return possibilities;
 };
 
@@ -405,6 +406,8 @@ export const getPossibleValues = (board: Board, row: number, col: number): numbe
 export const formatTime = (seconds: number): string => {
   const mins = Math.floor(seconds / 60);
   const secs = seconds % 60;
-  
-  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+  return `${mins.toString().padStart(2, '0')}:${secs
+    .toString()
+    .padStart(2, '0')}`;
 };

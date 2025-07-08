@@ -7,7 +7,7 @@ export type Difficulty = 'easy' | 'medium' | 'hard';
 export interface Cell {
   value: number | null;
   isFixed: boolean; // Whether this cell was part of the initial puzzle
-  notes: number[];  // Player's notes for possible values
+  notes: number[]; // Player's notes for possible values
   isInvalid?: boolean; // Whether this cell is part of an invalid placement
   isSelected?: boolean; // Whether this cell is currently selected
   isSameNumber?: boolean; // Whether this cell has the same number as the selected cell

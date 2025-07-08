@@ -10,9 +10,9 @@ interface BoardProps {
 
 export const Board: React.FC<BoardProps> = ({ board, onCellClick }) => {
   return (
-    <div className="sudoku-board">
+    <div className='sudoku-board'>
       {board.map((row, rowIndex) => (
-        <div key={rowIndex} className="board-row">
+        <div key={rowIndex} className='board-row'>
           {row.map((cell, colIndex) => (
             <Cell
               key={`${rowIndex}-${colIndex}`}
