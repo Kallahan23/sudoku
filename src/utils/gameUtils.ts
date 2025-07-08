@@ -1,6 +1,15 @@
 import type { GameState } from '../types';
-import { selectCell, clearBoardHighlighting, highlightRowAndColumn, clearInvalidCells, isBoardFilled, createBoardWithFixedCells } from './boardUtils';
-import { isBoardSolved, isBoardValid, findInvalidCells, solveSudoku } from './sudoku';
+import {
+  selectCell,
+  isBoardFilled,
+  createBoardWithFixedCells
+} from './boardUtils';
+import {
+  isBoardSolved,
+  isBoardValid,
+  findInvalidCells,
+  solveSudoku
+} from './sudoku';
 
 /**
  * Handles number input for a cell
@@ -69,58 +78,66 @@ export const handleNumberInput = (
 };
 
 /**
- * Handles clearing a cell
+ * Handles clearing a cell (optimized single-pass)
  */
 export const handleCellClear = (gameState: GameState): GameState => {
   if (!gameState.selectedCell) return gameState;
 
   const [rowIndex, colIndex] = gameState.selectedCell;
-  const newBoard = [...gameState.board];
 
-  if (newBoard[rowIndex][colIndex].isFixed) return gameState;
+  if (gameState.board[rowIndex][colIndex].isFixed) return gameState;
 
-  // Clear the cell
-  newBoard[rowIndex][colIndex] = {
-    ...newBoard[rowIndex][colIndex],
-    value: null,
-    notes: []
-  };
+  // Single pass: clear cell and apply highlighting
+  const newBoard = gameState.board.map((row, rIdx) =>
+    row.map((cell, cIdx) => {
+      if (rIdx === rowIndex && cIdx === colIndex) {
+        // Clear the selected cell
+        return {
+          ...cell,
+          value: null,
+          notes: [],
+          isSelected: true,
+          isHighlightedRow: false,
+          isHighlightedColumn: false,
+          isSameNumber: false
+        };
+      }
 
-  // Clear highlighting and re-apply for selected cell
-  let clearedBoard = clearBoardHighlighting(newBoard);
-  clearedBoard[rowIndex][colIndex] = {
-    ...clearedBoard[rowIndex][colIndex],
-    isSelected: true
-  };
-  clearedBoard = highlightRowAndColumn(clearedBoard, rowIndex, colIndex);
+      // Apply highlighting for other cells
+      return {
+        ...cell,
+        isSelected: false,
+        isHighlightedRow: rIdx === rowIndex,
+        isHighlightedColumn: cIdx === colIndex,
+        isSameNumber: false // No same numbers since cleared cell is empty
+      };
+    })
+  );
 
   return {
     ...gameState,
-    board: clearedBoard
+    board: newBoard
   };
 };
 
 /**
- * Handles solution checking
+ * Handles solution checking (optimized single-pass)
  */
 export const handleSolutionCheck = (gameState: GameState): GameState => {
-  const newBoard = [...gameState.board];
-  const invalidCells = findInvalidCells(newBoard);
+  const invalidCells = findInvalidCells(gameState.board);
+  const invalidCellsSet = new Set(invalidCells.map(([r, c]) => `${r},${c}`));
 
-  // Clear previous invalid markings
-  const clearedBoard = clearInvalidCells(newBoard);
-
-  // Mark invalid cells
-  invalidCells.forEach(([row, col]) => {
-    clearedBoard[row][col] = {
-      ...clearedBoard[row][col],
-      isInvalid: true
-    };
-  });
+  // Single pass: clear all invalid markings and set new ones
+  const newBoard = gameState.board.map((row, rowIndex) =>
+    row.map((cell, colIndex) => ({
+      ...cell,
+      isInvalid: invalidCellsSet.has(`${rowIndex},${colIndex}`)
+    }))
+  );
 
   return {
     ...gameState,
-    board: clearedBoard
+    board: newBoard
   };
 };
 
