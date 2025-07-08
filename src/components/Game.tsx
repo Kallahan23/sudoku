@@ -59,13 +59,15 @@ export const Game: React.FC = () => {
     setGameState(prev => {
       const newBoard = [...prev.board];
       
-      // Deselect previously selected cell
-      if (prev.selectedCell) {
-        const [prevRow, prevCol] = prev.selectedCell;
-        newBoard[prevRow][prevCol] = {
-          ...newBoard[prevRow][prevCol],
-          isSelected: false,
-        };
+      // Clear all highlighting
+      for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+          newBoard[row][col] = {
+            ...newBoard[row][col],
+            isSelected: false,
+            isSameNumber: false,
+          };
+        }
       }
       
       // Select new cell
@@ -73,6 +75,21 @@ export const Game: React.FC = () => {
         ...newBoard[rowIndex][colIndex],
         isSelected: true,
       };
+      
+      // Highlight cells with same number
+      const selectedValue = newBoard[rowIndex][colIndex].value;
+      if (selectedValue !== null) {
+        for (let row = 0; row < 9; row++) {
+          for (let col = 0; col < 9; col++) {
+            if (newBoard[row][col].value === selectedValue && (row !== rowIndex || col !== colIndex)) {
+              newBoard[row][col] = {
+                ...newBoard[row][col],
+                isSameNumber: true,
+              };
+            }
+          }
+        }
+      }
       
       return {
         ...prev,
@@ -114,6 +131,28 @@ export const Game: React.FC = () => {
           value: num,
           notes: [],
         };
+        
+        // Update same-number highlighting
+        for (let row = 0; row < 9; row++) {
+          for (let col = 0; col < 9; col++) {
+            newBoard[row][col] = {
+              ...newBoard[row][col],
+              isSameNumber: false,
+            };
+          }
+        }
+        
+        // Highlight cells with same number
+        for (let row = 0; row < 9; row++) {
+          for (let col = 0; col < 9; col++) {
+            if (newBoard[row][col].value === num && (row !== rowIndex || col !== colIndex)) {
+              newBoard[row][col] = {
+                ...newBoard[row][col],
+                isSameNumber: true,
+              };
+            }
+          }
+        }
         
         // Check if the board is complete
         const solved = isBoardSolved(newBoard);
@@ -168,6 +207,16 @@ export const Game: React.FC = () => {
         value: null,
         notes: [],
       };
+      
+      // Clear same-number highlighting since the selected cell is now empty
+      for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+          newBoard[row][col] = {
+            ...newBoard[row][col],
+            isSameNumber: false,
+          };
+        }
+      }
       
       return {
         ...prev,
@@ -279,17 +328,37 @@ export const Game: React.FC = () => {
           
           const newBoard = [...prev.board];
           
-          // Deselect current cell
-          newBoard[rowIndex][colIndex] = {
-            ...newBoard[rowIndex][colIndex],
-            isSelected: false,
-          };
+          // Clear all highlighting
+          for (let row = 0; row < 9; row++) {
+            for (let col = 0; col < 9; col++) {
+              newBoard[row][col] = {
+                ...newBoard[row][col],
+                isSelected: false,
+                isSameNumber: false,
+              };
+            }
+          }
           
           // Select new cell
           newBoard[newRow][newCol] = {
             ...newBoard[newRow][newCol],
             isSelected: true,
           };
+          
+          // Highlight cells with same number
+          const selectedValue = newBoard[newRow][newCol].value;
+          if (selectedValue !== null) {
+            for (let row = 0; row < 9; row++) {
+              for (let col = 0; col < 9; col++) {
+                if (newBoard[row][col].value === selectedValue && (row !== newRow || col !== newCol)) {
+                  newBoard[row][col] = {
+                    ...newBoard[row][col],
+                    isSameNumber: true,
+                  };
+                }
+              }
+            }
+          }
           
           return {
             ...prev,

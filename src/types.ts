@@ -10,6 +10,7 @@ export interface Cell {
   notes: number[];  // Player's notes for possible values
   isInvalid?: boolean; // Whether this cell is part of an invalid placement
   isSelected?: boolean; // Whether this cell is currently selected
+  isSameNumber?: boolean; // Whether this cell has the same number as the selected cell
 }
 
 // The entire Sudoku board is a 9x9 grid of cells

@@ -27,6 +27,7 @@ export const Cell: React.FC<CellProps> = ({
     data.isFixed ? 'fixed' : '',
     data.isSelected ? 'selected' : '',
     data.isInvalid ? 'invalid' : '',
+    data.isSameNumber ? 'same-number' : '',
     // Add CSS classes for borders
     rowIndex % 3 === 0 ? 'border-top' : '',
     colIndex % 3 === 0 ? 'border-left' : '',
