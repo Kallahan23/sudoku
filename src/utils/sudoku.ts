@@ -145,12 +145,18 @@ const shuffle = <T>(array: T[]): T[] => {
 // Get the number of cells to remove based on difficulty
 const getCellsToRemove = (difficulty: Difficulty): number => {
   switch (difficulty) {
+    case 'beginner':
+      return 25; // Leave ~56 clues
     case 'easy':
-      return 40; // Leave ~41 clues
+      return 35; // Leave ~46 clues
     case 'medium':
-      return 50; // Leave ~31 clues
+      return 45; // Leave ~36 clues
     case 'hard':
-      return 60; // Leave ~21 clues
+      return 55; // Leave ~26 clues
+    case 'expert':
+      return 65; // Leave ~16 clues
+    case 'master':
+      return 70; // Leave ~11 clues
     default:
       return 45;
   }

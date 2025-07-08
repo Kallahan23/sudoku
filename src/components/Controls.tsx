@@ -58,6 +58,14 @@ export const Controls: React.FC<ControlsProps> = ({
           <div className='difficulty-buttons'>
             <button
               className={`difficulty-button ${
+                difficulty === 'beginner' ? 'active' : ''
+              }`}
+              onClick={() => onNewGame('beginner')}
+            >
+              Beginner
+            </button>
+            <button
+              className={`difficulty-button ${
                 difficulty === 'easy' ? 'active' : ''
               }`}
               onClick={() => onNewGame('easy')}
@@ -79,6 +87,22 @@ export const Controls: React.FC<ControlsProps> = ({
               onClick={() => onNewGame('hard')}
             >
               Hard
+            </button>
+            <button
+              className={`difficulty-button ${
+                difficulty === 'expert' ? 'active' : ''
+              }`}
+              onClick={() => onNewGame('expert')}
+            >
+              Expert
+            </button>
+            <button
+              className={`difficulty-button ${
+                difficulty === 'master' ? 'active' : ''
+              }`}
+              onClick={() => onNewGame('master')}
+            >
+              Master
             </button>
           </div>
         </div>

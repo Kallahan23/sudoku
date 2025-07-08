@@ -1,7 +1,7 @@
 // Define types for our Sudoku game
 
 // Difficulty levels for the game
-export type Difficulty = 'easy' | 'medium' | 'hard';
+export type Difficulty = 'beginner' | 'easy' | 'medium' | 'hard' | 'expert' | 'master';
 
 // Cell represents a single cell in the Sudoku grid
 export interface Cell {
