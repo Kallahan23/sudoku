@@ -10,7 +10,8 @@ import {
   handleNumberInput,
   handleCellClear,
   handlePuzzleSolve,
-  handleKeyboardNavigation
+  handleKeyboardNavigation,
+  getDisabledNumbers
 } from '../utils/gameUtils';
 import { useKeyboardControls } from '../hooks/useKeyboardControls';
 import { useGameTimer } from '../hooks/useGameTimer';
@@ -123,6 +124,7 @@ export const Game: React.FC = () => {
           <NumberInput
             onNumberClick={handleNumberClick}
             isNotesMode={isNotesMode}
+            disabledNumbers={getDisabledNumbers(gameState.board)}
           />
           <Controls
             onNewGame={handleNewGame}

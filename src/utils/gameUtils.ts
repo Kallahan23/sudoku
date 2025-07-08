@@ -163,6 +163,25 @@ export const handlePuzzleSolve = (gameState: GameState): GameState => {
 };
 
 /**
+ * Gets the set of numbers that should be disabled (have 9 occurrences)
+ */
+export const getDisabledNumbers = (board: GameState['board']): Set<number> => {
+  const counts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // index 0 unused, 1-9 for numbers
+  const disabled = new Set<number>();
+
+  for (const cell of board.flat()) {
+    if (cell.value !== null) {
+      if (++counts[cell.value] === 9) {
+        disabled.add(cell.value);
+        if (disabled.size === 9) break; // early exit - all numbers disabled
+      }
+    }
+  }
+
+  return disabled;
+};
+
+/**
  * Handles keyboard navigation
  */
 export const handleKeyboardNavigation = (
