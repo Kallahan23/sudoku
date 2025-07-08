@@ -3,14 +3,14 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm i -g pnpm && pnpm install
+        - npm i -g pnpm && pnpm install --prod
     build:
       commands:
         - pnpm run build
   artifacts:
     baseDirectory: dist
     files:
-      - "**/*"
+      - '**/*'
   cache:
     paths:
       - node_modules/**/*
