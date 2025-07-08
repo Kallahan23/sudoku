@@ -38,13 +38,17 @@
 
 .control-button {
   flex: 1;
-  padding: 8px;
+  padding: 12px;
+  min-height: 44px;
   background-color: #e0e0e0;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .control-button:hover {
@@ -75,15 +79,19 @@
   flex: 1;
   min-width: calc(50% - 3px);
   max-width: calc(50% - 3px);
-  padding: 6px 4px;
+  min-height: 44px;
+  padding: 12px 8px;
   background-color: #e0e0e0;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 13px;
   transition: background-color 0.2s;
   text-transform: capitalize;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .difficulty-button:hover {
@@ -102,16 +110,33 @@
   }
   
   .control-button {
-    padding: 6px;
-    font-size: 12px;
+    padding: 14px 8px;
+    min-height: 48px;
+    font-size: 14px;
   }
   
   .difficulty-button {
-    padding: 4px 2px;
-    font-size: 10px;
+    padding: 14px 6px;
+    min-height: 48px;
+    font-size: 12px;
+    min-width: calc(50% - 3px);
+    max-width: calc(50% - 3px);
   }
   
   .timer, .difficulty {
     font-size: 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .difficulty-button {
+    min-width: 100%;
+    max-width: 100%;
+    margin-bottom: 4px;
+  }
+  
+  .difficulty-buttons {
+    flex-direction: column;
+    gap: 4px;
   }
 }
