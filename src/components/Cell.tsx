@@ -16,9 +16,7 @@ export const Cell: React.FC<CellProps> = ({
   onClick 
 }) => {
   const handleClick = () => {
-    if (!data.isFixed) {
-      onClick(rowIndex, colIndex);
-    }
+    onClick(rowIndex, colIndex);
   };
 
   // Determine CSS classes based on cell properties
