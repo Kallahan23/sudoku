@@ -78,7 +78,7 @@ export const Game: React.FC = () => {
         isSelected: true
       };
 
-      // Highlight row and column for medium/easy difficulty
+      // Highlight row and column of selected cell
       for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
           if (row === rowIndex && col !== colIndex) {
@@ -166,7 +166,7 @@ export const Game: React.FC = () => {
             }
           }
 
-          // Highlight row and column for medium/easy difficulty
+          // Highlight row and column of selected cell
           for (let row = 0; row < 9; row++) {
             for (let col = 0; col < 9; col++) {
               if (row === rowIndex && col !== colIndex) {
@@ -265,7 +265,7 @@ export const Game: React.FC = () => {
         }
       }
 
-      // Re-highlight row and column for medium/easy difficulty
+      // Re-highlight row and column of selected cell
       for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
           if (row === rowIndex && col !== colIndex) {
@@ -417,7 +417,7 @@ export const Game: React.FC = () => {
             isSelected: true
           };
 
-          // Highlight row and column for medium/easy difficulty
+          // Highlight row and column of selected cell
           for (let row = 0; row < 9; row++) {
             for (let col = 0; col < 9; col++) {
               if (row === newRow && col !== newCol) {
